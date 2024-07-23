@@ -78,3 +78,7 @@ void opcontrol(void);
 #endif
 
 #endif  // _PROS_MAIN_H_
+
+#define button ControllerButton
+#define btn ControllerDigital
+

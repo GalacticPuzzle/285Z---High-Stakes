@@ -1,99 +1,8 @@
 #include "main.h"
+#pragma once
 #include "lemlib/api.hpp"
 #include "pros/misc.h"
-#include "pros/motor_group.hpp"
-#include "pros/motors.h"
-
-pros::Motor front_left_motor(-11, pros::v5::MotorGears::blue); // correct n
-pros::Motor front_right_motor(13, pros::v5::MotorGears::blue);// correct
-pros::Motor back_top_left_motor(14, pros::v5::MotorGears::blue); // correct
-pros::Motor back_top_right_motor(-15, pros::v5::MotorGears::blue); // correct
-pros::Motor back_bottom_left_motor(-17, pros::v5::MotorGears::blue); // correct
-pros::Motor back_bottom_right_motor(18, pros::v5::MotorGears::blue);// correct
-
-pros::MotorGroup left_motor_group({-11,14,-17});
-pros::MotorGroup right_motor_group({13,-15,18});
-pros::Controller controller(pros::E_CONTROLLER_MASTER);
-
-
-// drivetrain settings
-lemlib::Drivetrain drivetrain(&left_motor_group, // left motor group
-                              &right_motor_group, // right motor group
-                              12.25, // 10 inch track width
-                              lemlib::Omniwheel::NEW_4_HALF, // using new 4" omnis
-                              257, // drivetrain rpm is 360
-                              2 // horizontal drift is 2 (for now)
-);
-
-// imu
-pros::Imu imu(10);
-// horizontal tracking wheel encoder
-pros::Rotation horizontal_encoder(20);
-// vertical tracking wheel encoder
-pros::ADIEncoder vertical_encoder('C', 'D', true);
-// horizontal tracking wheel
-lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_275, -5.75);
-// vertical tracking wheel
-lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_275, -2.5);
-
-// odometry settings
-lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel 1, set to null
-                            nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
-                            &horizontal_tracking_wheel, // horizontal tracking wheel 1
-                            nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
-                            &imu // inertial sensor
-);
-
-// lateral PID controller
-lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP)
-                                              0, // integral gain (kI)
-                                              3, // derivative gain (kD)
-                                              3, // anti windup
-                                              1, // small error range, in inches
-                                              100, // small error range timeout, in milliseconds
-                                              3, // large error range, in inches
-                                              500, // large error range timeout, in milliseconds
-                                              20 // maximum acceleration (slew)
-);
-
-// angular PID controller
-lemlib::ControllerSettings angular_controller(2, // proportional gain (kP)
-                                              0, // integral gain (kI)
-                                              10, // derivative gain (kD)
-                                              3, // anti windup
-                                              1, // small error range, in degrees
-                                              100, // small error range timeout, in milliseconds
-                                              3, // large error range, in degrees
-                                              500, // large error range timeout, in milliseconds
-                                              0 // maximum acceleration (slew)
-);
-
-
-// input curve for throttle input during driver control
-lemlib::ExpoDriveCurve throttle_curve(3, // joystick deadband out of 127
-                                     10, // minimum output where drivetrain will move out of 127
-                                     1.019 // expo curve gain
-);
-
-// input curve for steer input during driver control
-lemlib::ExpoDriveCurve steer_curve(3, // joystick deadband out of 127
-                                  10, // minimum output where drivetrain will move out of 127
-                                  1.019 // expo curve gain
-);
-
-// create the chassis
-lemlib::Chassis chassis(drivetrain,
-                        lateral_controller,
-                        angular_controller,
-                        sensors,
-                        &throttle_curve, 
-                        &steer_curve
-);
-
-
-
-
-
+#include "init/initRobot.cpp"
 
 
 /**
@@ -166,7 +75,6 @@ void competition_initialize() {}
 void autonomous() {
     chassis.setPose(0,0,0);
     chassis.turnToHeading(90, 100000);
-
 }
 
 /**
@@ -182,14 +90,19 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
+
 void opcontrol() {
-	while(true){
-		int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-		int rightY = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+     // loop forever
+    while (true) {
+        // get left y and right y positions
+        int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+        int rightY = -1*(controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
 
-		chassis.tank(leftY,rightY);
+        // move the robot
+        chassis.tank(leftY, rightY);
 
-		pros::delay(25);
-	
-	}
+        // delay to save resources
+        pros::delay(20);
+    }
+    
 }
