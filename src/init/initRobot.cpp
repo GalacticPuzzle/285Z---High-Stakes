@@ -1,6 +1,8 @@
 #include "main.h"
+#include "pros/adi.hpp"
 #include "pros/motor_group.hpp"
 #include "lemlib/api.hpp" 
+#include "/init/initRobot.hpp"
 
 // Drive Motor config
 pros::Motor front_left_motor(-19, pros::v5::MotorGears::blue); 
@@ -13,11 +15,11 @@ pros::Motor back_bottom_right_motor(-2, pros::v5::MotorGears::blue);
 // Intake Motor Config
 pros::Motor intakeMotor(20, pros::v5::MotorGears::blue); 
 
-const pros::controller_digital_e_t intakeIn = pros::E_CONTROLLER_DIGITAL_L1;
-const pros::controller_digital_e_t liftOut = pros::E_CONTROLLER_DIGITAL_R1;
-const pros::controller_digital_e_t liftUp = pros::E_CONTROLLER_DIGITAL_L2;
-const pros::controller_digital_e_t liftDown = pros::E_CONTROLLER_DIGITAL_R2;
-const pros::controller_digital_e_t tilt = pros::E_CONTROLLER_DIGITAL_A;
+ pros::controller_digital_e_t intakeIn = pros::E_CONTROLLER_DIGITAL_L1;
+ pros::controller_digital_e_t liftOut = pros::E_CONTROLLER_DIGITAL_R1;
+ pros::controller_digital_e_t liftUp = pros::E_CONTROLLER_DIGITAL_L2;
+ pros::controller_digital_e_t liftDown = pros::E_CONTROLLER_DIGITAL_R2;
+ pros::controller_digital_e_t tilt = pros::E_CONTROLLER_DIGITAL_A;
 
 
 //motorgroup config
@@ -39,6 +41,14 @@ lemlib::Drivetrain drivetrain(&left_motor_group, // left motor group
 
 // imu
 pros::Imu imu(16);
+
+
+pros::adi::DigitalIn autonSelector ('A');
+
+int aut = 0;
+const int numAutons = 5;
+
+
 // horizontal tracking wheel encoder
 // pros::Rotation horizontal_encoder(9);
 // // vertical tracking wheel encoder

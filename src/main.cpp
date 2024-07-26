@@ -1,8 +1,11 @@
 #include "main.h"
+#include "init/initRobot.hpp"
 #pragma once
 #include "lemlib/api.hpp"
 #include "pros/misc.h"
+#include "auton/auton.cpp"
 #include "init/initRobot.cpp"
+
 
 
 /**
@@ -59,7 +62,25 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() {
+    bool last_state = false;
+    
+    while (true) {
+        bool current_state = autonSelector.get_value();
+        
+        if (current_state && !last_state) {
+            aut = ((aut + 1) >= numAutons) ? 0 : aut + 1;
+            pros::delay(50);
+            // Optional: Add rumble or display logic here if needed
+            pros::delay(50);
+        }
+        
+        last_state = current_state;
+        pros::delay(10);
+    }
+
+
+}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -75,6 +96,17 @@ void competition_initialize() {}
 void autonomous() {
     chassis.setPose(0,0,0);
     chassis.turnToHeading(90, 100000);
+
+    switch (aut) {
+        case (0): noAuton(); break;
+        case (1): matchLoadSide(); break;
+        case (2): goalSide6(); break;
+        case (3): goalSide4(); break;
+        case (4): skillsAuton(); break;
+        default: noAuton(); break;
+    }
+
+
 }
 
 /**

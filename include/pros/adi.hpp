@@ -223,6 +223,18 @@ class Port {
 };
 ///@}
 
+class ADIButton {
+    private:
+        char port;
+        bool last_state;
+
+    public:
+        ADIButton(char port);
+        bool get_value();
+        bool is_new_press();
+};
+
+
 class AnalogIn : protected Port {
 	/**
 	 * \addtogroup cpp-adi
