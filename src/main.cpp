@@ -5,6 +5,8 @@
 #include "pros/misc.h"
 #include "auton/auton.cpp"
 #include "init/initRobot.cpp"
+#include "subsystems/drive.hpp"
+
 
 
 
@@ -124,17 +126,7 @@ void autonomous() {
  */
 
 void opcontrol() {
-     // loop forever
-    while (true) {
-        // get left y and right y positions
-        int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-        int rightY = -1*(controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
-
-        // move the robot
-        chassis.tank(leftY, rightY);
-
-        // delay to save resources
-        pros::delay(20);
-    }
-    
+//loop forever    
+    tankDrive();
+    //arcadeDrive();
 }

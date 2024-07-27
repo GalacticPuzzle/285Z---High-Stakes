@@ -1,5 +1,7 @@
 #pragma once
 #include "main.h"
+#include "lemlib/api.hpp" 
+
 
 class Drive {
     public:
@@ -12,3 +14,6 @@ class Drive {
 };
 
 extern Drive d;
+
+extern void tankDrive();
+extern void arcadeDrive();

@@ -1,5 +1,6 @@
 #pragma once
 #include "main.h"
+#include "lemlib/api.hpp" 
 
 class Tilter
 {

@@ -46,7 +46,6 @@ pros::Imu imu(16);
 pros::adi::DigitalIn autonSelector ('A');
 
 int aut = 0;
-const int numAutons = 5;
 
 
 // horizontal tracking wheel encoder
