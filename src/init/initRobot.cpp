@@ -1,8 +1,9 @@
 #include "main.h"
 #include "pros/adi.hpp"
+#include "pros/misc.h"
 #include "pros/motor_group.hpp"
 #include "lemlib/api.hpp" 
-#include "/init/initRobot.hpp"
+#include "init/initRobot.hpp"
 
 // Drive Motor config
 pros::Motor front_left_motor(-19, pros::v5::MotorGears::blue); 
@@ -15,11 +16,18 @@ pros::Motor back_bottom_right_motor(-2, pros::v5::MotorGears::blue);
 // Intake Motor Config
 pros::Motor intakeMotor(20, pros::v5::MotorGears::blue); 
 
+//Lift Motor Config
+pros::Motor liftMotor(21,pros::v5::MotorGears::green);
+
+
+
+ 
  pros::controller_digital_e_t intakeIn = pros::E_CONTROLLER_DIGITAL_L1;
  pros::controller_digital_e_t liftOut = pros::E_CONTROLLER_DIGITAL_R1;
  pros::controller_digital_e_t liftUp = pros::E_CONTROLLER_DIGITAL_L2;
  pros::controller_digital_e_t liftDown = pros::E_CONTROLLER_DIGITAL_R2;
- pros::controller_digital_e_t tilt = pros::E_CONTROLLER_DIGITAL_A;
+ pros::controller_digital_e_t intakeButton = pros::E_CONTROLLER_DIGITAL_A;
+ pros::controller_digital_e_t tilt = pros::E_CONTROLLER_DIGITAL_DOWN;
 
 
 //motorgroup config

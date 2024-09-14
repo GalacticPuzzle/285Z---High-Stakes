@@ -129,4 +129,7 @@ void opcontrol() {
 //loop forever    
     tankDrive();
     //arcadeDrive();
+    
+    pros::delay(20);
+
 }
