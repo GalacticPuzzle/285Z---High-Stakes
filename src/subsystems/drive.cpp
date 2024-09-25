@@ -1,7 +1,6 @@
-#pragma once
 #include "main.h"
-#include "../../include/subsystems/drive.hpp"
-#include "init/initRobot.hpp"
+#include "drive.hpp"
+#include "../../init/initRobot.hpp"
 #include "lemlib/api.hpp"
 #include "pros/misc.h"
 

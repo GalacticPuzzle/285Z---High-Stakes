@@ -1,13 +1,12 @@
 #include "main.h"
-#include "init/initRobot.hpp"
-#pragma once
-#include "lemlib/api.hpp"
 #include "pros/misc.h"
-#include "auton/auton.cpp"
-#include "init/initRobot.cpp"
+#include "pros/motors.h"
+#include "subsystems/intake.hpp"
 #include "subsystems/drive.hpp"
+#include "../../init/initRobot.hpp"
 
 
+using pros::E_MOTOR_GEAR_BLUE;
 
 
 /**
@@ -64,25 +63,7 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {
-    bool last_state = false;
-    
-    while (true) {
-        bool current_state = autonSelector.get_value();
-        
-        if (current_state && !last_state) {
-            aut = ((aut + 1) >= numAutons) ? 0 : aut + 1;
-            pros::delay(50);
-            // Optional: Add rumble or display logic here if needed
-            pros::delay(50);
-        }
-        
-        last_state = current_state;
-        pros::delay(10);
-    }
-
-
-}
+void competition_initialize() {}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -98,16 +79,6 @@ void competition_initialize() {
 void autonomous() {
     chassis.setPose(0,0,0);
     chassis.turnToHeading(90, 100000);
-
-    switch (aut) {
-        case (0): noAuton(); break;
-        case (1): matchLoadSide(); break;
-        case (2): goalSide6(); break;
-        case (3): goalSide4(); break;
-        case (4): skillsAuton(); break;
-        default: noAuton(); break;
-    }
-
 
 }
 
@@ -125,11 +96,24 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 
-void opcontrol() {
-//loop forever    
-    tankDrive();
-    //arcadeDrive();
-    
-    pros::delay(20);
-
+// Function for running the intake task
+void intake_task_fn(void* param) {
+    // Cast the param to an Intake object
+    Intake* intake = static_cast<Intake*>(param);
+    intake->run(param);  // Call the run method of the Intake object
 }
+
+void opcontrol() {
+    // Create the Intake object
+    Intake intake;
+
+    // Create the task for the intake
+    pros::Task intake_task(intake_task_fn, &intake, "Intake Task");
+
+    // Main opcontrol loop
+    while (true) {
+        tankDrive();  // Call tankDrive function (assuming this is defined elsewhere)
+        pros::delay(25);  // Add a delay to prevent resource exhaustion
+    }
+}
+

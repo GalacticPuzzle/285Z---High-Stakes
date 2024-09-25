@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pros/rtos.hpp"
+#include "pros/motors.hpp"
 #include "pros/imu.hpp"
 #include "lemlib/asset.hpp"
 #include "lemlib/chassis/trackingWheel.hpp"
@@ -154,8 +155,8 @@ class Drivetrain {
          */
         Drivetrain(pros::MotorGroup* leftMotors, pros::MotorGroup* rightMotors, float trackWidth, float wheelDiameter,
                    float rpm, float horizontalDrift);
-        pros::MotorGroup* leftMotors;
-        pros::MotorGroup* rightMotors;
+        pros::Motor_Group* leftMotors;
+        pros::Motor_Group* rightMotors;
         float trackWidth;
         float wheelDiameter;
         float rpm;

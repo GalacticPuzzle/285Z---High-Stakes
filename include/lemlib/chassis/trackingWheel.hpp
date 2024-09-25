@@ -1,7 +1,6 @@
 #pragma once
 
 #include "pros/motors.hpp"
-#include "pros/motor_group.hpp"
 #include "pros/adi.hpp"
 #include "pros/rotation.hpp"
 
@@ -40,7 +39,7 @@ class TrackingWheel {
          * @code {.cpp}
          * // Create a new optical shaft encoder on ports 'A' and 'B'
          * // this sensor is also reversed
-         * pros::adi::Encoder verticalEncoder('A', 'B', true);
+         * pros::ADIEncoder verticalEncoder('A', 'B', true);
          * // create a new vertical tracking wheel
          * // it's using a new 2.75 inch wheel
          * // it's also 5 inches away from the tracking center. This tracking wheel is to the left
@@ -49,7 +48,7 @@ class TrackingWheel {
          * lemlib::TrackingWheel verticalTrackingWheel(&verticalEncoder, lemlib::Omniwheel::NEW_275, -5);
          * // create a new optical shaft encoder on ports `C` and `D`
          * // this sensor is not reversed
-         * pros::adi::Encoder horizontalEncoder('C', 'D', false);
+         * pros::ADIEncoder horizontalEncoder('C', 'D', false);
          * // create a new horizontal tracking wheel
          * // it's using an old 3.25 inch wheel
          * // it's also 2 inches away from the tracking center. This tracking wheel is to the back
@@ -59,7 +58,7 @@ class TrackingWheel {
          * lemlib::TrackingWheel horizontalTrackingWheel(&horizontalEncoder, lemlib::Omniwheel::OLD_325, -2, 5.0/3.0);
          * @endcode
          */
-        TrackingWheel(pros::adi::Encoder* encoder, float wheelDiameter, float distance, float gearRatio = 1);
+        TrackingWheel(pros::ADIEncoder* encoder, float wheelDiameter, float distance, float gearRatio = 1);
         /**
          * @brief Create a new tracking wheel
          *
@@ -118,7 +117,7 @@ class TrackingWheel {
          * lemlib::TrackingWheel leftTrackingWheel(&leftMotors, lemlib::Omniwheel::OLD_4, -5, 360);
          * @endcode
          */
-        TrackingWheel(pros::MotorGroup* motors, float wheelDiameter, float distance, float rpm);
+        TrackingWheel(pros::Motor_Group* motors, float wheelDiameter, float distance, float rpm);
         /**
          * @brief Reset the tracking wheel position to 0
          *
@@ -188,9 +187,9 @@ class TrackingWheel {
         float diameter;
         float distance;
         float rpm;
-        pros::adi::Encoder* encoder = nullptr;
+        pros::ADIEncoder* encoder = nullptr;
         pros::Rotation* rotation = nullptr;
-        pros::MotorGroup* motors = nullptr;
+        pros::Motor_Group* motors = nullptr;
         float gearRatio = 1;
 };
 } // namespace lemlib

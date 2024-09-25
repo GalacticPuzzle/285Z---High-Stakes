@@ -1,12 +1,12 @@
-#pragma once
 #include "main.h"
 #include "lemlib/api.hpp" 
 
+extern pros::Motor IntakeMotor; // Declaration
 
 class Intake
 {
     public:
-    void run();
+    void run(void* param);
     void reverse();
     void intakeUntil();
 };
