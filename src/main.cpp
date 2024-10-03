@@ -113,7 +113,7 @@ void opcontrol() {
     // Main opcontrol loop
     while (true) {
         tankDrive();  // Call tankDrive function (assuming this is defined elsewhere)
-        pros::delay(25);  // Add a delay to prevent resource exhaustion
+        pros::delay(25);  // Add a delay to prevent resource exhaustio
     }
 }
 
