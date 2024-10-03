@@ -1,7 +1,8 @@
 #include "pros/adi.hpp" 
 #include "main.h"
 #include "pros/misc.h"
-#include "../../include/init/initRobot.hpp"
+#include "../../init/initRobot.hpp"
+
 
 // Define the motors here, without extern
 pros::Motor front_left_motor(-1, pros::E_MOTOR_GEAR_BLUE); // correct n

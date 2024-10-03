@@ -9,7 +9,7 @@
 // Global variable for intake state
 int intakeB = 0;
 
-pros::Motor IntakeMotor(20, pros::E_MOTOR_GEAR_BLUE); // correct n
+pros::Motor IntakeMotor(20, pros::E_MOTOR_GEAR_GREEN); // correct n
 
 
 void Intake::run(void* param) {
