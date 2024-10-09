@@ -2,6 +2,8 @@
 #include "lemlib/api.hpp" 
 
 extern pros::Motor IntakeMotor; // Declaration
+extern pros::Motor ConveyorMotor;
+extern int intakeB;
 
 class Intake
 {

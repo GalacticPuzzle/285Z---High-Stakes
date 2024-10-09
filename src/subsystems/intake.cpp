@@ -7,10 +7,7 @@
 #include "pros/rtos.hpp"
 
 // Global variable for intake state
-int intakeB = 0;
-
-pros::Motor IntakeMotor(20, pros::E_MOTOR_GEAR_GREEN); // correct n
-
+extern int intakeB = 0;
 
 void Intake::run(void* param) {
     while (true) {
@@ -28,13 +25,16 @@ void Intake::run(void* param) {
             intakeB = (intakeB != 1) ? 1 : 0;
         }
 
-        // Apply the state to the intake motor
+        // Apply the state to the intake and conveyor motors
         if (intakeB == 1) {
             IntakeMotor.move(127);  // Run intake forward
+            ConveyorMotor.move(127); // Run conveyor forward
         } else if (intakeB == -1) {
             IntakeMotor.move(-127); // Run intake backward
+            ConveyorMotor.move(-127); // Run conveyor backward
         } else {
             IntakeMotor.move(0);  // Stop intake
+            ConveyorMotor.move(0);  // Stop conveyor
         }
 
         pros::delay(20);  // Delay to avoid overwhelming the system

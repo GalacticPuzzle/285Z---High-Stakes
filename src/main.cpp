@@ -3,11 +3,31 @@
 #include "pros/motors.h"
 #include "subsystems/intake.hpp"
 #include "subsystems/drive.hpp"
+#include "subsystems/tilter.hpp"
 #include "../../init/initRobot.hpp"
 
 
 using pros::E_MOTOR_GEAR_BLUE;
 
+// Function for running the intake task
+void intake_task_fn(void* param) {
+    Intake* intake = static_cast<Intake*>(param);
+    
+    while (true) {
+        intake->run(param);  // This should handle button inputs for controlling the intake
+        pros::delay(20); // Small delay to prevent resource exhaustion
+    }
+}
+
+// Function for running the tilter task
+void tilter_task_fn(void* param) {
+    Tilter* tilter = static_cast<Tilter*>(param);
+    
+    while (true) {
+        tilter->grab(param);  // This should handle button inputs for controlling the tilter
+        pros::delay(20); // Small delay to prevent resource exhaustion
+    }
+}
 
 /**
  * A callback function for LLEMU's center button.
@@ -32,19 +52,28 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	pros::lcd::initialize();
-	chassis.calibrate(); // calibrate sensors
-    // print position to brain screen
-    pros::Task screen_task([&]() {
-        while (true) {
-            // print robot location to the brain screen
-            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-            // delay to save resources
-            pros::delay(20);
-        }
-    });
+    pros::lcd::initialize();
+    chassis.calibrate(); // Calibrate sensors
+
+    // Create the Intake and Tilter objects
+    Intake intake;
+    Tilter tilter;
+
+    // Start the intake and tilter tasks in the initialization phase
+    pros::Task intake_task(intake_task_fn, &intake, "Intake Task");
+    pros::Task tilter_task(tilter_task_fn, &tilter, "Tilter Task");
+
+    // Task for printing robot position to the brain screen
+    // pros::Task screen_task([&]() {
+    //     while (true) {
+    //         // Print robot location to the brain screen
+    //         pros::lcd::print(0, "X: %f", chassis.getPose().x); // X-coordinate
+    //         pros::lcd::print(1, "Y: %f", chassis.getPose().y); // Y-coordinate
+    //         pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // Heading (theta)
+    //         // Delay to save resources
+    //         pros::delay(20);
+    //     }
+    // });
 }
 
 /**
@@ -77,8 +106,16 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-    chassis.setPose(0,0,0);
-    chassis.turnToHeading(90, 100000);
+    // chassis.setPose(0,0,0);
+    // chassis.turnToHeading(90, 100000);
+        pros::Task screen_task([&]() {
+        while (true) {
+            // Print robot location to the brain screen
+            pros::lcd::print(0, "AUTON IS RUNNING!"); // X-coordinate
+            // Delay to save resources
+            pros::delay(20);
+        }
+    });
 
 }
 
@@ -97,23 +134,12 @@ void autonomous() {
  */
 
 // Function for running the intake task
-void intake_task_fn(void* param) {
-    // Cast the param to an Intake object
-    Intake* intake = static_cast<Intake*>(param);
-    intake->run(param);  // Call the run method of the Intake object
-}
+
 
 void opcontrol() {
-    // Create the Intake object
-    Intake intake;
-
-    // Create the task for the intake
-    pros::Task intake_task(intake_task_fn, &intake, "Intake Task");
-
-    // Main opcontrol loop
     while (true) {
         tankDrive();  // Call tankDrive function (assuming this is defined elsewhere)
-        pros::delay(25);  // Add a delay to prevent resource exhaustio
+        pros::delay(25); // Add a delay to prevent resource exhaustion
     }
 }
 

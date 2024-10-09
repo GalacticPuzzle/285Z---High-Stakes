@@ -12,12 +12,17 @@ pros::Motor back_top_right_motor(-4, pros::E_MOTOR_GEAR_BLUE); // correct
 pros::Motor back_bottom_left_motor(-6, pros::E_MOTOR_GEAR_BLUE); // correct
 pros::Motor back_bottom_right_motor(5, pros::E_MOTOR_GEAR_BLUE); // correct
 
+pros::Motor IntakeMotor(20, pros::E_MOTOR_GEAR_GREEN); // correct n
+pros::Motor ConveyorMotor(19, pros::E_MOTOR_GEAR_BLUE); // correct n
+
 // Define the motor groups
 pros::MotorGroup left_motor_group({-1, 3, -6});
 pros::MotorGroup right_motor_group({2, -4, 5});
 
 // Define the controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
+
+
 
 // Drivetrain settings
 lemlib::Drivetrain drivetrain(&left_motor_group, // left motor group
