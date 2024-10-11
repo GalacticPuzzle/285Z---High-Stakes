@@ -2,6 +2,8 @@
 #include "main.h"
 #include "pros/misc.h"
 #include "../../init/initRobot.hpp"
+#include "../../init/auton.hpp"
+
 
 
 // Define the motors here, without extern
@@ -98,3 +100,5 @@ lemlib::Chassis chassis(drivetrain,
                         &throttle_curve, 
                         &steer_curve
 );
+
+int numAutons = static_cast<int>(autons.size());

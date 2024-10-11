@@ -5,9 +5,10 @@
 #include "subsystems/drive.hpp"
 #include "subsystems/tilter.hpp"
 #include "../../init/initRobot.hpp"
+#include "../../init/helpers.hpp"
 
 
-using pros::E_MOTOR_GEAR_BLUE;
+
 
 // Function for running the intake task
 void intake_task_fn(void* param) {
@@ -64,17 +65,9 @@ void initialize() {
     pros::Task tilter_task(tilter_task_fn, &tilter, "Tilter Task");
 
     // Task for printing robot position to the brain screen
-    // pros::Task screen_task([&]() {
-    //     while (true) {
-    //         // Print robot location to the brain screen
-    //         pros::lcd::print(0, "X: %f", chassis.getPose().x); // X-coordinate
-    //         pros::lcd::print(1, "Y: %f", chassis.getPose().y); // Y-coordinate
-    //         pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // Heading (theta)
-    //         // Delay to save resources
-    //         pros::delay(20);
-    //     }
-    // });
+    
 }
+
 
 /**
  * Runs while the robot is in the disabled state of Field Management System or
@@ -92,7 +85,14 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() {
+    pros::Task screen_task([&]() {
+        while (true) {
+            cycleAutonMode(); // Check limit switch for mode cycling
+            pros::delay(20);
+        }
+    });
+}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -106,17 +106,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-    // chassis.setPose(0,0,0);
-    // chassis.turnToHeading(90, 100000);
-        pros::Task screen_task([&]() {
-        while (true) {
-            // Print robot location to the brain screen
-            pros::lcd::print(0, "AUTON IS RUNNING!"); // X-coordinate
-            // Delay to save resources
-            pros::delay(20);
-        }
-    });
-
+    setAutonMode();
 }
 
 /**
@@ -139,7 +129,7 @@ void autonomous() {
 void opcontrol() {
     while (true) {
         tankDrive();  // Call tankDrive function (assuming this is defined elsewhere)
-        pros::delay(25); // Add a delay to prevent resource exhaustion
+        pros::delay(20); // Add a delay to prevent resource exhaustion
     }
 }
 

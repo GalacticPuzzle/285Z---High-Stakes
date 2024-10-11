@@ -1,11 +1,11 @@
-#include "main.h"
-#include "lemlib/api.hpp" 
+#pragma once
 
-
-class Lift{
+class Lift {
+public:  // Ensure methods are accessible outside the class
     void liftUp();
     void liftDown();
     void liftToggle();
 };
 
-extern Lift lift;
+// Declare the external Lift object
+extern Lift Arm;
