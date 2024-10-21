@@ -12,7 +12,8 @@ extern const std::vector<std::string> autons;
 
 
 
+
 extern pros::ADIButton limitSwitch;
 
 
-extern int numAutons;
+extern const int numAutons;

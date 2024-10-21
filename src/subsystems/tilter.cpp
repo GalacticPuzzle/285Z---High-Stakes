@@ -7,7 +7,7 @@
 #include "pros/rtos.hpp"
 
 
-pros::ADIDigitalOut pistonSolenoid('A'); // Replace 'A' with your actual port
+pros::ADIDigitalOut pistonSolenoid('H'); // Replace 'A' with your actual port
 
 
 void Tilter::grab(void* param) {

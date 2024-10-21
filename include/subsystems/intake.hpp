@@ -11,6 +11,7 @@ class Intake
     void run(void* param);
     void reverse();
     void intakeUntil();
+    void intakeIn();
 };
 
-extern Intake in;
+extern Intake intake;

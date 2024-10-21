@@ -7,27 +7,33 @@
 #include "../include/subsystems/tilter.hpp"
 #include "pros/misc.h"
 
-int aut = 0;
+extern int aut = 0;
+
+// Function declarations for autonomous modes
+void noAuton();
+void matchLoadSide();
+void goalSide6(); 
+void goalSide4(); 
+void skillsAuton(); 
+
+void move(double distance) {
+    // Set up movement parameters
+    lemlib::MoveToPointParams params;
+    params.forwards = true;       // Move forward by default
+    params.maxSpeed = 127;        // Maximum speed (adjust as needed)
+    params.minSpeed = 0;          // Minimum speed (adjust for smoother movement)
+    params.earlyExitRange = 0;    // No early exit by default
+
+    // Move the chassis by the specified distance in the X direction
+    chassis.moveToPoint(distance, 0, 0, params);  // X = distance, Y = 0, Timeout = 0
+}
+
 
 // Global variables for autonomous mode and limit switch
-extern const std::vector<std::string> autons; // Autonomous names
-extern pros::ADIButton limitSwitch('A'); // Limit switch
+pros::ADIButton limitSwitch('A'); // Limit switch
 
 // Function to run the Intake::run() method for a specified number of seconds
-void intakeIn(int seconds) {
-    Intake intake;  // Create an instance of the Intake class
 
-    // Create a task to run the intake
-    pros::Task intakeTask([&]() {
-        intake.run(nullptr);  // Call the run() function
-    });
-
-    // Run the intake for the specified seconds
-    pros::delay(seconds * 1000);  // Convert seconds to milliseconds
-
-    // Stop the intake task (you can manage the stopping mechanism in the run() method)
-    intakeB = 0;  // Example: Stop the intake
-}
 
 // Function to activate the piston solenoid
 void clampOn() {
@@ -38,6 +44,9 @@ void clampOn() {
 void clampOff() {
     pistonSolenoid.set_value(false);  // Close the solenoid (deactivate piston)
 }
+
+
+
 
 // Function to cycle through autonomous modes
 void cycleAutonMode() {
@@ -51,32 +60,30 @@ void cycleAutonMode() {
 void setAutonMode() {
     switch (aut) {
         case 0:
+            pros::lcd::set_text(2, "Running No Autonomous");
             noAuton();
             break;
         case 1:
+            pros::lcd::set_text(2, "Running Match Load Side");
             matchLoadSide();
             break;
         case 2:
+            pros::lcd::set_text(2, "Running Goal Side 6 Ball");
             goalSide6();
             break;
         case 3:
+            pros::lcd::set_text(2, "Running Goal Side 4 Ball");
             goalSide4();
             break;
         case 4:
+            pros::lcd::set_text(2, "Running Skills Auton");
             skillsAuton();
             break;
         default:
+            pros::lcd::set_text(2, "Running Default Autonomous");
             noAuton();
             break;
     }
 }
-
-
-void noAuton(); 
-void matchLoadSide(); 
-void goalSide6(); 
-void goalSide4(); 
-void skillsAuton(); 
-void noAuton(); 
 
 

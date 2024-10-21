@@ -7,19 +7,19 @@
 
 
 // Define the motors here, without extern
-pros::Motor front_left_motor(-1, pros::E_MOTOR_GEAR_BLUE); // correct n
-pros::Motor front_right_motor(2, pros::E_MOTOR_GEAR_BLUE); // correct
-pros::Motor back_top_left_motor(3, pros::E_MOTOR_GEAR_BLUE); // correct
-pros::Motor back_top_right_motor(-4, pros::E_MOTOR_GEAR_BLUE); // correct
-pros::Motor back_bottom_left_motor(-6, pros::E_MOTOR_GEAR_BLUE); // correct
-pros::Motor back_bottom_right_motor(5, pros::E_MOTOR_GEAR_BLUE); // correct
+pros::Motor front_left_motor(-10, pros::E_MOTOR_GEAR_BLUE); // correct n
+pros::Motor front_right_motor(9, pros::E_MOTOR_GEAR_BLUE); // correct
+pros::Motor back_top_left_motor(8, pros::E_MOTOR_GEAR_BLUE); // correct
+pros::Motor back_top_right_motor(5, pros::E_MOTOR_GEAR_BLUE); // correct
+pros::Motor back_bottom_left_motor(-7, pros::E_MOTOR_GEAR_BLUE); // correct
+pros::Motor back_bottom_right_motor(6, pros::E_MOTOR_GEAR_BLUE); // correct
 
-pros::Motor IntakeMotor(20, pros::E_MOTOR_GEAR_GREEN); // correct n
-pros::Motor ConveyorMotor(19, pros::E_MOTOR_GEAR_BLUE); // correct n
+pros::Motor IntakeMotor(3, pros::E_MOTOR_GEAR_GREEN); // correct n
+pros::Motor ConveyorMotor(1, pros::E_MOTOR_GEAR_BLUE); // correct n
 
 // Define the motor groups
-pros::MotorGroup left_motor_group({-1, 3, -6});
-pros::MotorGroup right_motor_group({2, -4, 5});
+pros::MotorGroup left_motor_group({-10,8, -7});
+pros::MotorGroup right_motor_group({-9, 5, -6});
 
 // Define the controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
@@ -36,7 +36,7 @@ lemlib::Drivetrain drivetrain(&left_motor_group, // left motor group
 );
 
 // IMU
-pros::Imu imu(10);
+pros::Imu imu(4);
 // Horizontal tracking wheel encoder
 pros::Rotation horizontal_encoder(20);
 // Vertical tracking wheel encoder
@@ -101,4 +101,3 @@ lemlib::Chassis chassis(drivetrain,
                         &steer_curve
 );
 
-int numAutons = static_cast<int>(autons.size());

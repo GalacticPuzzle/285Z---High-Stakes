@@ -55,14 +55,14 @@ void on_center_button() {
 void initialize() {
     pros::lcd::initialize();
     chassis.calibrate(); // Calibrate sensors
+    pistonSolenoid.set_value(false);  
+
 
     // Create the Intake and Tilter objects
-    Intake intake;
-    Tilter tilter;
+
 
     // Start the intake and tilter tasks in the initialization phase
-    pros::Task intake_task(intake_task_fn, &intake, "Intake Task");
-    pros::Task tilter_task(tilter_task_fn, &tilter, "Tilter Task");
+
 
     // Task for printing robot position to the brain screen
     
@@ -106,8 +106,14 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-    setAutonMode();
+    // Display autonomous mode at the start of autonomous
+    pros::lcd::set_text(1, "Starting Autonomous Mode: " + autons[aut]);
+    
+    // Call the appropriate autonomous routine based on selected mode
+    noAuton();
+
 }
+
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -127,9 +133,17 @@ void autonomous() {
 
 
 void opcontrol() {
+    Intake intake;   // Definition for intake
+    Tilter tilter;   // Definition for tilter
+
+    // Create tasks for intake and tilter once, outside the while loop
+    pros::Task intake_task(intake_task_fn, &intake, "Intake Task");
+    pros::Task tilter_task(tilter_task_fn, &tilter, "Tilter Task");
+
     while (true) {
         tankDrive();  // Call tankDrive function (assuming this is defined elsewhere)
         pros::delay(20); // Add a delay to prevent resource exhaustion
     }
 }
+
 
