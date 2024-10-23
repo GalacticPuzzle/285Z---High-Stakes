@@ -12,6 +12,8 @@ class Drive {
     void moveLinear(float disp, float speed);
     void IMUTurn(float degrees);
     void moveTurn(float disp, float endAngle, float speed);
+    void move(double distance);
+    void turn(double angle, int time);
 };
 
 extern Drive d;

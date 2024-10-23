@@ -86,12 +86,10 @@ void disabled() {}
  * starts.
  */
 void competition_initialize() {
-    pros::Task screen_task([&]() {
-        while (true) {
-            cycleAutonMode(); // Check limit switch for mode cycling
-            pros::delay(20);
-        }
-    });
+   if (limitSwitch.get_new_press()) {
+        aut = (aut + 1) % numAutons; // Cycle through autonomous modes
+        pros::lcd::set_text(1, "Auton Mode: " + autons[aut]); // Display current mode
+    }
 }
 
 /**
@@ -106,13 +104,15 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-    // Display autonomous mode at the start of autonomous
-    pros::lcd::set_text(1, "Starting Autonomous Mode: " + autons[aut]);
+    pros::lcd::set_text(1, "Testing Intake");
     
-    // Call the appropriate autonomous routine based on selected mode
-    noAuton();
-
+    Intake intake;
+    Drive drive;  // Create an instance of the Intake class (assuming default constructor is defined)
+    intake.runAutonIn(1);
+    //drive.move(10); // Call the runAuton method on the instance, run intake for 5 seconds
 }
+
+
 
 
 /**

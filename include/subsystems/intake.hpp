@@ -12,6 +12,9 @@ class Intake
     void reverse();
     void intakeUntil();
     void intakeIn();
+    void runAutonIn(int second);
+    void runAutonOut(int second);
+    void stopAuton();
 };
 
 extern Intake intake;

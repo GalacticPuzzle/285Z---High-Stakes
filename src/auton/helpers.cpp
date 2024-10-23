@@ -16,17 +16,28 @@ void goalSide6();
 void goalSide4(); 
 void skillsAuton(); 
 
-void move(double distance) {
-    // Set up movement parameters
-    lemlib::MoveToPointParams params;
-    params.forwards = true;       // Move forward by default
-    params.maxSpeed = 127;        // Maximum speed (adjust as needed)
-    params.minSpeed = 0;          // Minimum speed (adjust for smoother movement)
-    params.earlyExitRange = 0;    // No early exit by default
+// void move(double distance) {
+//     pros::lcd::set_text(4, "Starting Movement");  // Debugging text
 
-    // Move the chassis by the specified distance in the X direction
-    chassis.moveToPoint(distance, 0, 0, params);  // X = distance, Y = 0, Timeout = 0
-}
+//     // Start the motors to move a certain distance
+//     front_left_motor.move_relative(distance, 100);  // Move left front motor
+//     back_top_left_motor.move_relative(distance, 100);  // Move left back motor
+//     back_bottom_left_motor.move_relative(distance, 100);  // Move left bottom motor
+
+//     front_right_motor.move_relative(distance, 100); // Move right front motor
+//     back_top_right_motor.move_relative(distance, 100); // Move right back motor
+//     back_bottom_right_motor.move_relative(distance, 100); // Move right bottom motor
+
+//     // Wait until all motors finish their movement
+//     while (!front_left_motor.is_stopped() || !back_top_left_motor.is_stopped() || !back_bottom_left_motor.is_stopped() ||
+//            !front_right_motor.is_stopped() || !back_top_right_motor.is_stopped() || !back_bottom_right_motor.is_stopped()) {
+//         pros::delay(20);  // Wait a short time before checking again
+//     }
+
+//     pros::lcd::set_text(4, "Finished Movement");  // Debugging text
+// }
+
+
 
 
 // Global variables for autonomous mode and limit switch

@@ -15,10 +15,13 @@ const std::vector<std::string> autons = {
 const int numAutons = static_cast<int>(autons.size()); // Number of autonomous modes
 
 void noAuton() {
-    pros::lcd::set_text(2, "Running No Autonomous");
+    pros::lcd::set_text(2, "Intake");
     intakeIn(10); // Run intake for 10 seconds
-    move(10);     // Move for a specified distance
-} 
+    pros::lcd::set_text(2, "move");
+
+    move(10);     // Move for a specified distance (e.g., 10 units)
+}
+
 
 // Define other autonomous mode functions...
 
