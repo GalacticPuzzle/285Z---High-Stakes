@@ -49,14 +49,14 @@ void Intake::runAutonIn(int seconds) {
 
     // Start the intake and conveyor motors at full speed
     IntakeMotor.move(127);  // Run the intake motor at 100% speed
-    ConveyorMotor.move(127);  // Run the conveyor motor at 100% speed
+    ConveyorMotor.move(124);  // Run the conveyor motor at 100% speed
 
     // Keep running the motors for the specified duration
     int startTime = pros::millis();  // Get the current time in milliseconds
     while (pros::millis() - startTime < seconds * 1000) {
         // This loop will keep the motors running at full speed
         IntakeMotor.move(127);  // Continuously run the intake motor at full speed
-        ConveyorMotor.move(127);  // Continuously run the conveyor motor at full speed
+        ConveyorMotor.move(124);  // Continuously run the conveyor motor at full speed
     }
 
     // Stop the intake and conveyor motors after the loop ends
@@ -70,14 +70,14 @@ void Intake::runAutonOut(int seconds) {
 
     // Start the intake and conveyor motors at full speed
     IntakeMotor.move(-127);  // Run the intake motor at 100% speed
-    ConveyorMotor.move(-127);  // Run the conveyor motor at 100% speed
+    ConveyorMotor.move(-124);  // Run the conveyor motor at 100% speed
 
     // Keep running the motors for the specified duration
     int startTime = pros::millis();  // Get the current time in milliseconds
     while (pros::millis() - startTime < seconds * 1000) {
         // This loop will keep the motors running at full speed
         IntakeMotor.move(-127);  // Continuously run the intake motor at full speed
-        ConveyorMotor.move(-127);  // Continuously run the conveyor motor at full speed
+        ConveyorMotor.move(-124);  // Continuously run the conveyor motor at full speed
     }
 
     // Stop the intake and conveyor motors after the loop ends

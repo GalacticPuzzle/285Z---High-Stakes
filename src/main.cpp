@@ -1,4 +1,5 @@
 #include "main.h"
+#include "lemlib/chassis/chassis.hpp"
 #include "pros/misc.h"
 #include "pros/motors.h"
 #include "subsystems/intake.hpp"
@@ -6,6 +7,7 @@
 #include "subsystems/tilter.hpp"
 #include "../../init/initRobot.hpp"
 #include "../../init/helpers.hpp"
+ASSET(Auton1_txt);
 
 
 
@@ -104,12 +106,37 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-    pros::lcd::set_text(1, "Testing Intake");
-    
-    Intake intake;
-    Drive drive;  // Create an instance of the Intake class (assuming default constructor is defined)
-    intake.runAutonIn(1);
-    //drive.move(10); // Call the runAuton method on the instance, run intake for 5 seconds
+    chassis.calibrate(); // Calibrate sensors
+    chassis.setPose(0, 0, 0);
+    // lookahead distance: 15 inches
+    // timeout: 2000 ms
+    // follow the next path, but with the robot going backwards
+    // // set position to x:0, y:0, heading:0
+    chassis.setPose(0, 0, 0);
+    // // turn to face heading 90 with a very long timeout
+    chassis.turnToHeading(90, 100000);
+
+    // SLEW
+    // chassis.setPose(0,0,0);
+    // chassis.moveToPoint(0, 48, 10000);
+
+    //AUTON TEST?
+//    chassis.setPose(58, 24, 5000);
+// chassis.moveToPoint(25, 24, 5000, {.forwards = false}, false);
+// //clampFunction();
+// pros::delay(50);
+// chassis.turnToHeading(0, 5000);
+// chassis.moveToPoint(25, 50, 5000);
+// chassis.turnToHeading(130, 5000);
+// //clampFunction();
+// chassis.moveToPoint(47, -47, 5000);
+// chassis.moveToPoint(25, -24, 5000, {.forwards = false}, false);
+// //clampFunction();
+// pros::delay(50);
+// chassis.moveToPoint(25, -47, 5000, {.forwards = false}, false);
+// chassis.turnToHeading(340, 5000);
+// chassis.moveToPoint(25, -47, 5000);
+
 }
 
 
