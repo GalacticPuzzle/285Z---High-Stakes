@@ -55,6 +55,7 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
+    chassis.calibrate(); // Calibrate sensors
     pros::lcd::initialize();
     chassis.calibrate(); // Calibrate sensors
     pistonSolenoid.set_value(false);  
@@ -88,6 +89,8 @@ void disabled() {}
  * starts.
  */
 void competition_initialize() {
+    chassis.calibrate(); // Calibrate sensors
+
    if (limitSwitch.get_new_press()) {
         aut = (aut + 1) % numAutons; // Cycle through autonomous modes
         pros::lcd::set_text(1, "Auton Mode: " + autons[aut]); // Display current mode
@@ -106,37 +109,10 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-    chassis.calibrate(); // Calibrate sensors
+    // Set the initial pose of the robot
     chassis.setPose(0, 0, 0);
-    // lookahead distance: 15 inches
-    // timeout: 2000 ms
-    // follow the next path, but with the robot going backwards
-    // // set position to x:0, y:0, heading:0
-    chassis.setPose(0, 0, 0);
-    // // turn to face heading 90 with a very long timeout
-    chassis.turnToHeading(90, 100000);
-
-    // SLEW
-    // chassis.setPose(0,0,0);
-    // chassis.moveToPoint(0, 48, 10000);
-
-    //AUTON TEST?
-//    chassis.setPose(58, 24, 5000);
-// chassis.moveToPoint(25, 24, 5000, {.forwards = false}, false);
-// //clampFunction();
-// pros::delay(50);
-// chassis.turnToHeading(0, 5000);
-// chassis.moveToPoint(25, 50, 5000);
-// chassis.turnToHeading(130, 5000);
-// //clampFunction();
-// chassis.moveToPoint(47, -47, 5000);
-// chassis.moveToPoint(25, -24, 5000, {.forwards = false}, false);
-// //clampFunction();
-// pros::delay(50);
-// chassis.moveToPoint(25, -47, 5000, {.forwards = false}, false);
-// chassis.turnToHeading(340, 5000);
-// chassis.moveToPoint(25, -47, 5000);
-
+    // Execute a 90-degree turn with a reasonable timeout (e.g., 5 seconds)
+    chassis.turnToHeading(90, 5000);
 }
 
 

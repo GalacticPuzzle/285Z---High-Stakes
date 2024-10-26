@@ -100,4 +100,3 @@ lemlib::Chassis chassis(drivetrain,
                         &throttle_curve, 
                         &steer_curve
 );
-
