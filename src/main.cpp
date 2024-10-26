@@ -55,7 +55,6 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-    chassis.calibrate(); // Calibrate sensors
     pros::lcd::initialize();
     chassis.calibrate(); // Calibrate sensors
     pistonSolenoid.set_value(false);  
